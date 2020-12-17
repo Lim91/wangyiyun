@@ -23,11 +23,31 @@
 
     <main>
       <div class="cd-box">
-        <div class="cd-wrapper">
+        <div
+          class="cd-wrapper"
+          @click="showLyric = true"
+          :class="{ hide: showLyric == true }"
+        >
           <!-- 旋转 -->
           <div class="cd-play" ref="wrapper">
             <img :src="songData.picUrl" alt="" />
           </div>
+        </div>
+        <div
+          class="lyric"
+          @click="showLyric = false"
+          :class="{ hide: showLyric == false }"
+        >
+          <ul v-if="lyricData" :style="{ marginTop: marginTopValue + 'px' }">
+            <li
+              v-for="(item, index) in lyricData"
+              :key="index"
+              :class="{ active: index == lyricIndex }"
+              class="one-text"
+            >
+              {{ item.text }}
+            </li>
+          </ul>
         </div>
       </div>
       <!-- 音乐 -->
@@ -143,6 +163,18 @@ export default {
 
       //是否收藏
       isCollection: false,
+
+      // 显示歌词
+      showLyric: false,
+
+      //歌词
+      lyricData: [],
+
+      //歌词位置
+      marginTopValue: "",
+
+      //歌词索引值
+      lyricIndex: "",
     };
   },
 
@@ -161,6 +193,8 @@ export default {
     });
     //查询歌曲是否被收藏
     this.showIsCollection();
+
+    this.getLyric(this.songsListData[this.songIndex].id);
   },
 
   computed: {
@@ -218,11 +252,44 @@ export default {
       this.$store.commit("changeIsShowFalse");
     },
 
+    //获取歌词
+    getLyric(id) {
+      var patt = /\[\d{2}:\d{2}\.\d{2,3}\]/gi;
+      this.axios({
+        method: "GET",
+        url: "/lyric",
+        params: {
+          id,
+        },
+      })
+        .then((result) => {
+          if (result.data.code == 200) {
+            // console.log("result.data.lrc.lyric =>", result.data.lrc.lyric);
+            let lyric = result.data.lrc.lyric;
+            var arr = lyric
+              .split("\n")
+              .filter((e) => e)
+              .map((str) => {
+                var time = str.match(patt)[0].replace(/(\[|\])/gi, "");
+                var timeArr = time.split(":");
+                time = Number(timeArr[0]) * 60 + Number(timeArr[1]);
+                var text = str.replace(patt, "");
+                return { time, text };
+              });
+            this.lyricData = arr;
+            // console.log("arr =>", arr);
+          }
+        })
+        .catch((err) => {
+          console.log("err =>", err);
+        });
+    },
+
     //监听音频变化
     listenAudioChange() {
       //获取音频当前播放事件
-      let currentTime = this.audioELement.currentTime;
-      let totalTime = this.audioELement.duration;
+      var currentTime = this.audioELement.currentTime;
+      var totalTime = this.audioELement.duration;
       this.currentTime = currentTime;
       this.totalTime = totalTime;
       this.value = parseInt((currentTime / totalTime) * 100);
@@ -241,6 +308,13 @@ export default {
           this.random();
         }
       }
+
+      //歌词数据时间里比当前时间大一点的歌词的索引值
+      var index = this.lyricData.findIndex((item) => {
+        return item.time > currentTime;
+      });
+      this.lyricIndex = index - 1;
+      this.marginTopValue = -30 * (index - 1) + 150;
     },
 
     //修改audio元素，保存到公共数据state
@@ -335,6 +409,8 @@ export default {
         let id = this.songsListData[index].id;
         //修改歌曲data
         this.changeSongsData(id);
+        //修改歌词
+        this.getLyric(id);
         //修改歌曲index
         this.$store.commit("changeSongIndex", index);
       } else {
@@ -353,6 +429,8 @@ export default {
       let id = this.songsListData[index].id;
       //修改歌曲data
       this.changeSongsData(id);
+      //修改歌词
+      this.getLyric(id);
       //修改歌曲index
       this.$store.commit("changeSongIndex", index);
     },
@@ -368,6 +446,8 @@ export default {
           let id = this.songsListData[index].id;
           //修改歌曲data
           this.changeSongsData(id);
+          //修改歌词
+          this.getLyric(id);
           //修改歌曲index
           this.$store.commit("changeSongIndex", index);
         } else {
@@ -388,6 +468,8 @@ export default {
           let id = this.songsListData[index].id;
           //修改歌曲data
           this.changeSongsData(id);
+          //修改歌词
+          this.getLyric(id);
           //修改歌曲index
           this.$store.commit("changeSongIndex", index);
         } else {
@@ -395,6 +477,8 @@ export default {
           let id = this.songsListData[0].id;
           //修改歌曲data
           this.changeSongsData(id);
+          //修改歌词
+          this.getLyric(id);
           //修改歌曲index
           this.$store.commit("changeSongIndex", index);
         }
@@ -541,7 +625,11 @@ export default {
     height: 418px;
     display: flex;
     align-items: center;
-    transition: all 0.3s;
+    transition: all 1s;
+    .hide {
+      display: none;
+      opacity: 0;
+    }
     .cd-box {
       width: 100%;
       height: 300px;
@@ -555,7 +643,6 @@ export default {
         transform: translateX(-50%);
         width: 300px;
         height: 300px;
-        // background-color: green;
         .cd-play {
           width: 100%;
           height: 100%;
@@ -572,6 +659,33 @@ export default {
         //暂停播放
         .active {
           animation-play-state: paused;
+        }
+      }
+      .lyric {
+        overflow: hidden;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        width: 300px;
+        height: 300px;
+        font-size: 14px;
+        color: #c7c7c7;
+        overflow: hidden;
+        ul {
+          transition: all 1s;
+          margin-top: 150px;
+          li {
+            height: 30px;
+            line-height: 30px;
+            width: 300px;
+          }
+          li.active {
+            color: #b84038;
+            font-size: 18px;
+            font-weight: 500;
+            text-shadow: 0 0 1px #555;
+          }
         }
       }
     }

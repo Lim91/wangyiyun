@@ -195,7 +195,7 @@ export default {
       ctx.arc(
         17,
         17,
-        13,
+        15,
         Math.PI * -0.5,
         Math.PI * ((current / total) * 2 - 0.5)
       );
