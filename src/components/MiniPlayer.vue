@@ -284,7 +284,7 @@ export default {
           this.$store.commit("changeSongIndex", 0);
           this.show = false;
           setTimeout(() => {
-            this.$store.commit("changeSongSrc", []);
+            this.$store.commit("changeSongSrc", "");
             this.$store.commit("changeIsShowFalse");
           }, 300);
         })
