@@ -690,10 +690,10 @@ export default {
             width: 300px;
           }
           li.active {
-            color: #b84038;
+            color: #fff;
             font-size: 18px;
             font-weight: 500;
-            text-shadow: 0 0 1px #555;
+            text-shadow: 0 0 1px #c9443b;
           }
         }
       }
