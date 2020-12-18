@@ -12,7 +12,7 @@
         @click-left="back"
         @click-right="searchClear"
         left-arrow
-        right-text="取消"
+        right-text="清空"
       >
         <template #title>
           <van-search
