@@ -22,7 +22,9 @@
               @click="collectionPlayAll"
             />
             <div class="play-all-lefttext">播放全部</div>
-            <div class="play-all-righttext">(共{{ collection.length }}首)</div>
+            <div class="play-all-righttext">
+              (共{{ collectionData.length }}首)
+            </div>
             <div class="delete">
               <van-icon
                 name="delete"
@@ -36,7 +38,7 @@
           <ul class="collection-list">
             <li
               class="collection-item clearfix"
-              v-for="(item, index) in collection"
+              v-for="(item, index) in collectionData"
               :key="index"
               @click="goPlaySongOne(item, index)"
             >
@@ -57,7 +59,9 @@
               @click="historyPlayAll"
             />
             <div class="play-all-lefttext">播放全部</div>
-            <div class="play-all-righttext">(共{{ playHistory.length }}首)</div>
+            <div class="play-all-righttext">
+              (共{{ playHistoryData.length }}首)
+            </div>
             <div class="delete">
               <van-icon
                 name="delete"
@@ -71,7 +75,7 @@
           <ul class="recently-list">
             <li
               class="recently-item clearfix"
-              v-for="(item, index) in playHistory"
+              v-for="(item, index) in playHistoryData"
               :key="index"
               @click="goPlaySongTwo(item, index)"
             >
@@ -96,13 +100,28 @@ export default {
   data() {
     return {
       active: 0,
+
+      //我的收藏列表数据
+      collectionData: [],
+
+      //最近播放列表数据
+      playHistoryData: [],
     };
+  },
+
+  created() {
+    this.collection();
+    this.playHistory();
+    console.log("重新加载");
   },
 
   computed: {
     //播放歌曲页面显示和隐藏的值
     isShow() {
-      return this.$store.state.isShow;
+      let isShow = this.$store.state.isShow;
+      this.collection();
+      this.playHistory();
+      return isShow;
     },
 
     //歌单列表id和name
@@ -113,14 +132,21 @@ export default {
     songSrc() {
       return this.$store.state.songSrc;
     },
+  },
 
-    //收藏
+  methods: {
+    //返回上一页
+    back() {
+      this.$router.go(-1);
+    },
+
+    //收藏列表
     collection() {
       if (localStorage.getItem("collection")) {
         let collection = JSON.parse(localStorage.getItem("collection"));
-        return collection;
+        this.collectionData = collection;
       } else {
-        return [];
+        this.collectionData = [];
       }
     },
 
@@ -128,17 +154,10 @@ export default {
     playHistory() {
       if (localStorage.getItem("playHistory")) {
         let playHistory = JSON.parse(localStorage.getItem("playHistory"));
-        return playHistory;
+        this.playHistoryData = playHistory;
       } else {
-        return [];
+        this.playHistoryData = [];
       }
-    },
-  },
-
-  methods: {
-    //返回上一页
-    back() {
-      this.$router.go(-1);
     },
 
     //修改歌曲播放页面显示和隐藏的值
@@ -177,7 +196,7 @@ export default {
     collectionPlayAll() {
       //上传数据到songsListData
       let songsListData = [];
-      this.collection.map((item, index) => {
+      this.collectionData.map((item, index) => {
         let data = {};
         data.name = item.name;
         data.id = item.id;
@@ -231,7 +250,7 @@ export default {
     historyPlayAll() {
       //上传数据到songsListData
       let songsListData = [];
-      this.playHistory.map((item, index) => {
+      this.playHistoryData.map((item, index) => {
         let data = {};
         data.name = item.name;
         data.id = item.id;
@@ -244,7 +263,7 @@ export default {
         method: "GET",
         url: "/song/detail",
         params: {
-          ids: this.playHistory[0].id,
+          ids: this.playHistoryData[0].id,
         },
       })
         .then((result) => {
@@ -264,10 +283,10 @@ export default {
             this.$store.commit("changeSongData", songData);
             //
             //在store改变当前播放歌曲的id
-            this.changeSongId(this.playHistory[0].id);
+            this.changeSongId(this.playHistoryData[0].id);
             //
             //把歌曲src添加进store
-            this.changeSongSrc(this.playHistory[0].id);
+            this.changeSongSrc(this.playHistoryData[0].id);
           }
         })
         .catch((err) => {
@@ -323,10 +342,10 @@ export default {
       //上传数据到songsListData
       let songsListData = [];
       //修改歌单列表数据name和id
-      this.collection.map((item, index) => {
+      this.collectionData.map((item, index) => {
         let data = {};
         data.name = item.name;
-        data.id = item.id;
+        data.id = JSON.parse(item.id);
         songsListData[index] = data;
       });
       this.$store.commit("changeSongsListData", songsListData);
@@ -351,6 +370,9 @@ export default {
       songData.artists = item.artists;
       console.log("item =>", item);
       this.$store.commit("changeSongData", songData);
+
+      this.collection();
+      this.playHistory();
     },
 
     //打开播放歌曲页面
@@ -362,13 +384,13 @@ export default {
       //上传数据到songsListData
       let songsListData = [];
       //修改歌单列表数据name和id
-      this.playHistory.map((item, index) => {
+      this.playHistoryData.map((item, index) => {
         let data = {};
         data.name = item.name;
         data.id = item.id;
         songsListData[index] = data;
       });
-      // console.log("this.collection =>", this.collection);
+      // console.log("this.collectionData =>", this.collectionData);
       // console.log("this.songsListData =>", this.songsListData);
       this.$store.commit("changeSongsListData", songsListData);
 
@@ -393,12 +415,18 @@ export default {
       songData.id = JSON.stringify(id);
       console.log("item =>", item);
       this.$store.commit("changeSongData", songData);
+
+      this.collection();
+      this.playHistory();
     },
 
     //删除所有歌曲
     deleteSongsList(data) {
       localStorage.setItem(data, "");
       console.log("data =>", data);
+
+      this.collection();
+      this.playHistory();
     },
   },
 };

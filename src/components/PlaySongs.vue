@@ -38,7 +38,10 @@
           @click="showLyric = false"
           :class="{ hide: showLyric == false }"
         >
-          <ul v-if="lyricData" :style="{ marginTop: marginTopValue + 'px' }">
+          <ul
+            v-if="lyricData.length > 0"
+            :style="{ marginTop: marginTopValue + 'px' }"
+          >
             <li
               v-for="(item, index) in lyricData"
               :key="index"
@@ -47,6 +50,9 @@
             >
               {{ item.text }}
             </li>
+          </ul>
+          <ul v-else>
+            <li>暂无歌词</li>
           </ul>
         </div>
       </div>
@@ -264,19 +270,21 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            // console.log("result.data.lrc.lyric =>", result.data.lrc.lyric);
-            let lyric = result.data.lrc.lyric;
-            var arr = lyric
-              .split("\n")
-              .filter((e) => e)
-              .map((str) => {
-                var time = str.match(patt)[0].replace(/(\[|\])/gi, "");
-                var timeArr = time.split(":");
-                time = Number(timeArr[0]) * 60 + Number(timeArr[1]);
-                var text = str.replace(patt, "");
-                return { time, text };
-              });
-            this.lyricData = arr;
+            console.log("result.data.lrc.lyric =>", result.data);
+            if (result.data.lrc.lyric) {
+              let lyric = result.data.lrc.lyric;
+              var arr = lyric
+                .split("\n")
+                .filter((e) => e)
+                .map((str) => {
+                  var time = str.match(patt)[0].replace(/(\[|\])/gi, "");
+                  var timeArr = time.split(":");
+                  time = Number(timeArr[0]) * 60 + Number(timeArr[1]);
+                  var text = str.replace(patt, "");
+                  return { time, text };
+                });
+              this.lyricData = arr;
+            }
             // console.log("arr =>", arr);
           }
         })
@@ -498,6 +506,7 @@ export default {
         collection.push(songData);
         // console.log("collection =>", this.collection);
         localStorage.setItem("collection", JSON.stringify(collection));
+        console.log("collection =>", this.collection);
       } else {
         let collection = this.collection;
         collection.forEach((item, index, self) => {

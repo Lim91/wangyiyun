@@ -13,32 +13,50 @@ const routes = [
       {
         path: 'home',
         name: 'Home',
-        component: () => import('../views/Home.vue')
+        component: () => import('../views/Home.vue'),
+        meta: {
+          keepAlive: true
+        }
       },
       {
         path: 'songlistpage:id',
         name: 'SongListPage',
-        component: () => import("../views/SongListPage")
+        component: () => import("../views/SongListPage"),
+        meta: {
+          keepAlive: false
+        }
       },
       {
         path: 'userpage',
         name: 'UserPage',
-        component: () => import("../views/UserPage")
+        component: () => import("../views/UserPage"),
+        meta: {
+          keepAlive: false
+        }
       },
       {
         path: 'search',
         name: 'Search',
-        component: () => import("../views/Search")
+        component: () => import("../views/Search"),
+        meta: {
+          keepAlive: false
+        }
       },
       {
         path: 'artistpage:id',
         name: 'ArtistPage',
-        component: () => import("../views/ArtistPage")
+        component: () => import("../views/ArtistPage"),
+        meta: {
+          keepAlive: false
+        }
       },
       {
         path: 'test',
         name: 'Test',
-        component: () => import("../views/Test")
+        component: () => import("../views/Test"),
+        meta: {
+          keepAlive: false
+        }
       }
     ]
   },

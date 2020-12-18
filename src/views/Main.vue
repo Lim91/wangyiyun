@@ -1,7 +1,13 @@
 <template>
   <div class="main">
     <!-- 二级路由 -->
-    <router-view :class="{ pb: !isShow && songSrc }"></router-view>
+    <keep-alive v-if="$route.meta.keepAlive">
+      <router-view :class="{ pb: !isShow && songSrc }"></router-view>
+    </keep-alive>
+    <router-view
+      v-if="!$route.meta.keepAlive"
+      :class="{ pb: !isShow && songSrc }"
+    ></router-view>
     <transition
       name="custom-classes-transition"
       enter-active-class="animate__animated animate__slideInUp"

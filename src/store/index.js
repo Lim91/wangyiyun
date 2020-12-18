@@ -76,8 +76,9 @@ export default new Vuex.Store({
         // console.log("playHistory =>", playHistory);
         localStorage.setItem("playHistory", JSON.stringify(playHistory));
       } else {
-        localStorage.setItem("playHistory", JSON.stringify([]));
-        let playHistory = localStorage.getItem("playHistory");
+        let playHistory = [];
+        playHistory.push(data);
+        localStorage.setItem("playHistory", JSON.stringify(playHistory));
         // console.log("playHistory =>", playHistory);
       }
     },

@@ -216,6 +216,7 @@ export default {
     this.getRanking();
     this.getSongs();
     this.getSinger();
+    console.log("新的数据");
   },
 
   computed: {

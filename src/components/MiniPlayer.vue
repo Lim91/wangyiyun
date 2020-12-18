@@ -282,6 +282,7 @@ export default {
           // on close
           this.$store.commit("changeSongsListData", "");
           this.$store.commit("changeSongIndex", 0);
+          this.$store.commit("changeCurrentTime", "");
           this.show = false;
           setTimeout(() => {
             this.$store.commit("changeSongSrc", "");
