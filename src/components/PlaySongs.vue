@@ -64,9 +64,7 @@
           @timeupdate="listenAudioChange"
           autoplay="autoplay"
           :loop="isLoop"
-        >
-          <source />
-        </audio>
+        ></audio>
       </div>
     </main>
 
@@ -187,7 +185,7 @@ export default {
   created() {
     //获取audio元素
     this.$nextTick(() => {
-      // console.log("this.$refs =>", this.$refs);
+      //
       this.changeAudio(this.$refs.audio);
       if (this.audioCurrentTime) {
         this.$refs.audio.currentTime = this.audioCurrentTime;
@@ -270,7 +268,6 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("result.data.lrc.lyric =>", result.data);
             if (result.data.lrc.lyric) {
               let lyric = result.data.lrc.lyric;
               var arr = lyric
@@ -285,7 +282,7 @@ export default {
                 });
               this.lyricData = arr;
             }
-            // console.log("arr =>", arr);
+            //
           }
         })
         .catch((err) => {
@@ -328,7 +325,6 @@ export default {
     //修改audio元素，保存到公共数据state
     changeAudio(audio) {
       this.$store.commit("changeAudio", audio);
-      // console.log("this.audioELement =>", this.audioELement);
     },
 
     //获取歌曲当前播放时间并保存到state
@@ -338,7 +334,6 @@ export default {
 
     //改变音频进度
     changeAudioTime(value) {
-      console.log("value =>", value);
       this.audioELement.currentTime = parseInt(
         (value / 100) * this.audioELement.duration
       );
@@ -346,7 +341,7 @@ export default {
 
     //修改歌曲信息
     changeSongsData(id) {
-      // console.log("id =>", id);
+      //
       //修改歌曲id
       // this.$store.commit("changeSongId", id);
       //根据歌曲id获取歌曲src并传值
@@ -359,7 +354,7 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            // console.log("music result.data.data =>", result.data.data);
+            //
             let songSrc = result.data.data[0].url;
             this.$store.commit("changeSongSrc", songSrc);
           }
@@ -378,7 +373,6 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("music result.data.songs =>", result.data.songs[0]);
             let data = result.data.songs[0];
             //上传修改歌曲信息
             let songData = {};
@@ -412,7 +406,7 @@ export default {
     //列表循环播放
     circle() {
       if (this.songIndex < this.songsListData.length - 1) {
-        // console.log("this.songIndex", this.songIndex);
+        //
         let index = this.songIndex + 1;
         let id = this.songsListData[index].id;
         //修改歌曲data
@@ -433,7 +427,7 @@ export default {
     random() {
       let length = this.songsListData.length;
       let index = Math.floor(Math.random() * length);
-      console.log("random index=>", index);
+
       let id = this.songsListData[index].id;
       //修改歌曲data
       this.changeSongsData(id);
@@ -449,7 +443,7 @@ export default {
         this.random();
       } else {
         if (this.songIndex > 0) {
-          // console.log("this.songIndex", this.songIndex);
+          //
           let index = this.songIndex - 1;
           let id = this.songsListData[index].id;
           //修改歌曲data
@@ -466,12 +460,11 @@ export default {
 
     //播放下一首
     nextSong() {
-      console.log("this.songsListData =>", this.songsListData);
       if (this.playMode == "random") {
         this.random();
       } else {
         if (this.songIndex < this.songsListData.length - 1) {
-          // console.log("this.songIndex", this.songIndex);
+          //
           let index = this.songIndex + 1;
           let id = this.songsListData[index].id;
           //修改歌曲data
@@ -504,9 +497,8 @@ export default {
       if (this.isCollection) {
         let collection = this.collection;
         collection.push(songData);
-        // console.log("collection =>", this.collection);
+        //
         localStorage.setItem("collection", JSON.stringify(collection));
-        console.log("collection =>", this.collection);
       } else {
         let collection = this.collection;
         collection.forEach((item, index, self) => {
@@ -515,15 +507,13 @@ export default {
           }
         });
         localStorage.setItem("collection", JSON.stringify(collection));
-
-        console.log("collection =>", this.collection);
       }
     },
 
     //查询歌曲是否被收藏
     showIsCollection() {
       let collection = this.collection;
-      console.log("collection =>", collection);
+
       if (collection) {
         this.isCollection = collection.some((item) => {
           if (item.id == this.songsListData[this.songIndex].id) {
@@ -537,7 +527,7 @@ export default {
 
     //改变歌曲播放暂停状态
     changeSongStatus() {
-      // console.log("播放、暂停");
+      //
       if (this.audioStatus == 0) {
         this.audioELement.play();
         this.$store.commit("changeSongStatus", 1);

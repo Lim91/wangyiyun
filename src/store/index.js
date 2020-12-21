@@ -41,8 +41,8 @@ export default new Vuex.Store({
   mutations: {
     //控制歌曲播放页面的显示和隐藏
     changeIsShowTrue(state, data) {
-      // console.log("state =>", state.isShow)
-      // console.log("data =>", data)
+      // 
+      // 
 
       state.isShow = true;
     },
@@ -54,13 +54,13 @@ export default new Vuex.Store({
     //修改歌曲id
     changeSongId(state, data) {
       state.songId = data;
-      // console.log("state.songId =>", state.songId)
+      // 
     },
 
     //修改歌曲src
     changeSongSrc(state, data) {
       state.songSrc = data;
-      // console.log("state.songSrc =>", state.songSrc);
+      // 
     },
 
     //修改歌曲信息data
@@ -68,18 +68,18 @@ export default new Vuex.Store({
       for (let key in data) {
         state.songData[key] = data[key]
       }
-      console.log("state.songDate =>", state.songData)
+
 
       if (localStorage.getItem("playHistory")) {
         let playHistory = JSON.parse(localStorage.getItem("playHistory"));
         playHistory.push(data);
-        // console.log("playHistory =>", playHistory);
+        // 
         localStorage.setItem("playHistory", JSON.stringify(playHistory));
       } else {
         let playHistory = [];
         playHistory.push(data);
         localStorage.setItem("playHistory", JSON.stringify(playHistory));
-        // console.log("playHistory =>", playHistory);
+        // 
       }
     },
 
@@ -101,7 +101,7 @@ export default new Vuex.Store({
     //修改歌单name和id列表
     changeSongsListData(state, data) {
       state.songsListData = data;
-      console.log("state.songsListData =>", state.songsListData);
+
     },
 
     //修改歌曲index

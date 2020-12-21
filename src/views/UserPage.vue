@@ -112,7 +112,6 @@ export default {
   created() {
     this.collection();
     this.playHistory();
-    console.log("重新加载");
   },
 
   computed: {
@@ -181,9 +180,8 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("music result.data =>", result.data);
             let songSrc = result.data.data[0].url;
-            // console.log("songSrc", songSrc);
+            //
             this.$store.commit("changeSongSrc", songSrc);
           }
         })
@@ -214,7 +212,6 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("result.data.songs =>", result.data.songs[0]);
             let data = result.data.songs[0];
             //上传修改歌曲信息
             let songData = {};
@@ -268,7 +265,6 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("result.data.songs =>", result.data.songs[0]);
             let data = result.data.songs[0];
             //上传修改歌曲信息
             let songData = {};
@@ -289,17 +285,13 @@ export default {
             this.changeSongSrc(this.playHistoryData[0].id);
           }
         })
-        .catch((err) => {
-          console.log("err =>", err);
-        });
+        .catch((err) => {});
 
       //修改歌曲index为0
       this.$store.commit("changeSongIndex", 0);
 
       //设置播放状态为播放
       this.$store.commit("changeSongStatus", 1);
-
-      console.log("aaaabsldkfjdf");
     },
 
     //根据歌曲id获取歌曲data并传值
@@ -313,7 +305,6 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("music result.data.songs =>", result.data.songs[0]);
             let data = result.data.songs[0];
             //上传修改歌曲信息
             let songData = {};
@@ -336,7 +327,7 @@ export default {
     //打开播放歌曲页面
     goPlaySongOne(item, index) {
       //歌曲id
-      console.log("item =>", item);
+
       let id = item.id;
 
       //上传数据到songsListData
@@ -368,7 +359,7 @@ export default {
       songData.name = item.name;
       songData.picUrl = item.picUrl;
       songData.artists = item.artists;
-      console.log("item =>", item);
+
       this.$store.commit("changeSongData", songData);
 
       this.collection();
@@ -378,7 +369,7 @@ export default {
     //打开播放歌曲页面
     goPlaySongTwo(item, index) {
       //歌曲id
-      console.log("item =>", item);
+
       let id = item.id;
 
       //上传数据到songsListData
@@ -390,8 +381,8 @@ export default {
         data.id = item.id;
         songsListData[index] = data;
       });
-      // console.log("this.collectionData =>", this.collectionData);
-      // console.log("this.songsListData =>", this.songsListData);
+      //
+      //
       this.$store.commit("changeSongsListData", songsListData);
 
       //打开播放页面
@@ -413,7 +404,7 @@ export default {
       songData.picUrl = item.picUrl;
       songData.artists = item.artists;
       songData.id = JSON.stringify(id);
-      console.log("item =>", item);
+
       this.$store.commit("changeSongData", songData);
 
       this.collection();
@@ -423,7 +414,6 @@ export default {
     //删除所有歌曲
     deleteSongsList(data) {
       localStorage.setItem(data, "");
-      console.log("data =>", data);
 
       this.collection();
       this.playHistory();

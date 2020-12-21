@@ -77,7 +77,7 @@ export default {
   created() {
     //截取id
     this.id = this.$route.params.id;
-    // console.log("this.id =>", this.id);
+    //
 
     //获取歌单详情数据
     this.getSongListDetail();
@@ -107,7 +107,7 @@ export default {
         },
       })
         .then((result) => {
-          // console.log("result.data =>", result.data);
+          //
           let songListData = result.data;
           for (let key in songListData.hotSongs) {
             if (songListData.hotSongs[key].ar.length > 1) {
@@ -118,7 +118,6 @@ export default {
             }
           }
           this.songListData = songListData;
-          console.log("this.songListData =>", this.songListData);
 
           //将歌曲列表数据name和id传到store
           let songs = this.songListData.hotSongs;
@@ -129,8 +128,8 @@ export default {
             data.id = item.id;
             songsListData[index] = data;
           });
-          // console.log("songs =>", songs);
-          // console.log("songsListData =>", songsListData);
+          //
+          //
           this.$store.commit("changeSongsListData", songsListData);
         })
         .catch((err) => {
@@ -140,7 +139,7 @@ export default {
 
     //播放全部
     playAll() {
-      // console.log("this.songsListData =>", this.songsListData);
+      //
 
       //根据歌曲id获取歌曲data并传值
       this.axios({
@@ -152,7 +151,6 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("music result.data.songs =>", result.data.songs[0]);
             let data = result.data.songs[0];
             //上传修改歌曲信息
             let songData = {};
@@ -205,9 +203,8 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("music result.data =>", result.data);
             let songSrc = result.data.data[0].url;
-            // console.log("songSrc", songSrc);
+            //
             this.$store.commit("changeSongSrc", songSrc);
           }
         })
@@ -227,7 +224,6 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("music result.data.songs =>", result.data.songs[0]);
             let data = result.data.songs[0];
             //上传修改歌曲信息
             let songData = {};
@@ -251,8 +247,8 @@ export default {
     //打开播放歌曲页面
     goPlaySongs(item) {
       //歌曲id
-      // console.log("item =>", item);
-      console.log("isShow =>", this.isShow);
+      //
+
       let id = item.id;
 
       //打开播放页面
@@ -270,7 +266,7 @@ export default {
       songData.name = item.name;
       songData.picUrl = item.al.picUrl;
       songData.artists = item.ar[0].name;
-      // console.log("songData =>", songData);
+      //
       this.$store.commit("changeSongData", songData);
     },
   },

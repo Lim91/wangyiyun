@@ -216,7 +216,6 @@ export default {
     this.getRanking();
     this.getSongs();
     this.getSinger();
-    console.log("新的数据");
   },
 
   computed: {
@@ -236,14 +235,14 @@ export default {
 
     //设置当前点击标签的下标
     setActive(name, title) {
-      // console.log("name =>", name);
+      //
       localStorage.setItem("activeIndex", JSON.stringify(name));
     },
 
     //获取标签的下标
     getActive() {
       this.active = JSON.parse(localStorage.getItem("activeIndex"));
-      // console.log("aaaaa active =>", this.active);
+      //
     },
 
     leftShowPopup() {
@@ -264,7 +263,7 @@ export default {
       })
         .then((result) => {
           if (result.status == 200) {
-            // console.log("result =>", result);
+            //
             this.images = result.data.banners;
           }
         })
@@ -283,11 +282,11 @@ export default {
         },
       })
         .then((result) => {
-          // console.log("result =>", result);
+          //
           result.data.result.map((v, i) => {
             if (v) {
               this.songList.push(v);
-              // console.log(v, i);
+              //
             }
           });
         })
@@ -303,7 +302,7 @@ export default {
         url: "/personalized/newsong",
       })
         .then((result) => {
-          // console.log("result =>", result);
+          //
           if (result.data.code == 200) {
             this.songs = result.data.result.splice(0, 9);
           }
@@ -314,7 +313,7 @@ export default {
     },
     // 跳转到歌单列表页面
     goSongListPage(id) {
-      // console.log(id);
+      //
       this.$router.push({ name: "SongListPage", params: { id: id } });
     },
 
@@ -339,9 +338,9 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            // console.log("music result.data.data =>", result.data.data);
+            //
             let songSrc = result.data.data[0].url;
-            // console.log("songSrc", songSrc);
+            //
             this.$store.commit("changeSongSrc", songSrc);
           }
         })
@@ -353,7 +352,7 @@ export default {
     //打开播放歌曲页面
     goPlaySong(item, index) {
       //歌曲id
-      console.log("item =>", item);
+
       let id = item.id;
 
       //修改歌单列表数据name和id
@@ -363,8 +362,8 @@ export default {
         data.id = item.id;
         this.songsListData[index] = data;
       });
-      // console.log("this.songs =>", this.songs);
-      // console.log("this.songsListData =>", this.songsListData);
+      //
+      //
       this.$store.commit("changeSongsListData", this.songsListData);
 
       //打开播放页面
@@ -390,7 +389,7 @@ export default {
       }
       songData.artists = artists.join("/");
       songData.id = JSON.stringify(id);
-      console.log("item =>", item);
+
       this.$store.commit("changeSongData", songData);
     },
 
@@ -402,7 +401,7 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            // console.log("result =>", result);
+            //
 
             result.data.list.map((v) => {
               if (v.tracks.length > 0) {
@@ -419,7 +418,7 @@ export default {
     //获得按字母排序的歌手
     getSinger() {
       for (let key of this.alphabet) {
-        // console.log("key =>", key);
+        //
         this.axios({
           method: "GET",
           url: "/artist/list",
@@ -430,7 +429,7 @@ export default {
         })
           .then((result) => {
             if (result.status == 200) {
-              // console.log("result.data.artists =>", result.data.artists);
+              //
               let artists = result.data.artists;
               this.singer[key] = artists;
             }
@@ -439,12 +438,12 @@ export default {
             console.log("err =>", err);
           });
       }
-      // console.log("this.singer =>", this.singer);
+      //
     },
 
     // 跳转到歌手列表页面
     goSingerPage(id) {
-      // console.log(id);
+      //
       this.$router.push({ name: "ArtistPage", params: { id: id } });
     },
   },

@@ -49,14 +49,6 @@ const routes = [
         meta: {
           keepAlive: false
         }
-      },
-      {
-        path: 'test',
-        name: 'Test',
-        component: () => import("../views/Test"),
-        meta: {
-          keepAlive: false
-        }
       }
     ]
   },

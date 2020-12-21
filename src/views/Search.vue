@@ -140,7 +140,7 @@ export default {
 
   created() {
     this.$nextTick(() => {
-      // console.log("this.$refs", this.$refs);
+      //
       let searchIpt = this.$refs.search.querySelector('[type="search"]');
       //自动获取焦点
       searchIpt.focus();
@@ -175,15 +175,13 @@ export default {
         url: "/search/hot",
       })
         .then((result) => {
-          // console.log("result =>", result);
+          //
           if (result.data.code == 200) {
             this.hotSearch = result.data.result.hots;
-            // console.log("this.hotSearch =>", this.hotSearch);
+            //
           }
         })
-        .catch((err) => {
-          console.log("err =>", err);
-        });
+        .catch((err) => {});
     },
 
     //获取搜索历史
@@ -218,7 +216,6 @@ export default {
 
     //搜索历史点击删除按钮
     deleteSearchItem(item, index) {
-      console.log("index", index);
       this.searchHistory.splice(index, 1);
       localStorage.setItem("searchHistory", JSON.stringify(this.searchHistory));
     },
@@ -229,7 +226,7 @@ export default {
       this.setSearchHistory(value);
       this.getSearchHistory();
 
-      // console.log("value =>", value.length);
+      //
       this.$toast.loading({
         message: "加载中...",
         forbidClick: true,
@@ -248,7 +245,7 @@ export default {
         },
       })
         .then((result) => {
-          // console.log("result =>", result);
+          //
           if (result.data.code == 200) {
             let songsData = result.data.result.songs;
             for (let key in songsData) {
@@ -260,7 +257,7 @@ export default {
               }
             }
             this.songsData = songsData;
-            console.log("this.songsData =>", this.songsData);
+
             this.$toast.clear();
           }
         })
@@ -281,10 +278,10 @@ export default {
       })
         .then((result) => {
           this.$toast.clear();
-          // console.log("result =>", result);
+          //
           if (result.data.code == 200) {
             this.singerData = result.data.result.artists.splice(0, 1);
-            // console.log("this.singerData =>", this.singerData);
+            //
           }
         })
         .catch((err) => {
@@ -304,9 +301,9 @@ export default {
       })
         .then((result) => {
           this.$toast.clear();
-          // console.log("result =>", result);
+          //
           if (result.data.code == 200) {
-            // console.log("this.songsList =>", result.data.result);
+            //
             this.songsList = result.data.result.playlists.splice(0, 1);
           }
         })
@@ -318,7 +315,7 @@ export default {
 
     //监听搜索框键盘按下事件
     changeSongsData() {
-      // console.log("this.searchValue", this.searchValue);
+      //
       if (!this.searchValue) {
         this.searchClear();
       }
@@ -357,9 +354,9 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            // console.log("music result.data.data =>", result.data.data);
+            //
             let songSrc = result.data.data[0].url;
-            // console.log("songSrc", songSrc);
+            //
             this.$store.commit("changeSongSrc", songSrc);
           }
         })
@@ -371,7 +368,7 @@ export default {
     //打开播放歌曲页面
     goPlaySong(item, index) {
       //歌曲id
-      // console.log("item =>", item);
+      //
       let id = item.id;
 
       //打开播放页面
@@ -394,7 +391,7 @@ export default {
       }
       songData.artists = artists.join("/");
       songData.id = JSON.stringify(id);
-      // console.log("songData =>", songData);
+      //
       this.$store.commit("changeSongData", songData);
 
       //上传数据到songsListData
@@ -412,13 +409,13 @@ export default {
 
     // 跳转到歌手列表页面
     goSingerPage(id) {
-      // console.log(id);
+      //
       this.$router.push({ name: "ArtistPage", params: { id: id } });
     },
 
     // 跳转到歌单列表
     goSongList(id) {
-      // console.log(id);
+      //
       this.$router.push({ name: "SongListPage", params: { id: id } });
     },
   },

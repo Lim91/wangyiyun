@@ -101,7 +101,7 @@ export default {
   created() {
     //获取audio元素
     this.$nextTick(() => {
-      // console.log("this.$refs =>", this.$refs);
+      //
       this.changeAudio(this.$refs.audio);
       if (this.audioCurrentTime) {
         this.$refs.audio.currentTime = this.audioCurrentTime;
@@ -166,13 +166,12 @@ export default {
 
     //改变歌曲播放暂停状态
     changeSongStatus() {
-      console.log("播放、暂停");
       if (this.audioStatus == 0) {
         this.audioELement.play();
         this.$store.commit("changeSongStatus", 1);
         //获取wrapper元素
         this.$nextTick(() => {
-          // console.log("this.$refs.wrapper", this.$refs.wrapper);
+          //
           this.$refs.wrapper.classList.remove("active");
         });
       } else {
@@ -245,7 +244,7 @@ export default {
     //列表循环播放
     circle() {
       if (this.songIndex < this.songsListData.length - 1) {
-        // console.log("this.songIndex", this.songIndex);
+        //
         let index = this.songIndex + 1;
         let id = this.songsListData[index].id;
         //修改歌曲data
@@ -264,7 +263,7 @@ export default {
     random() {
       let length = this.songsListData.length;
       let index = Math.floor(Math.random() * length);
-      console.log("random index=>", index);
+
       let id = this.songsListData[index].id;
       //修改歌曲data
       this.changeSongsData(id);
@@ -309,7 +308,6 @@ export default {
         this.changeSongsData(this.songsListData[index].id);
       }
       this.$store.commit("changeSongsListData", data);
-      console.log("this.songsListData =>", this.songsListData);
     },
 
     //切换歌曲
@@ -322,7 +320,7 @@ export default {
     //修改audio元素，保存到公共数据state
     changeAudio(audio) {
       this.$store.commit("changeAudio", audio);
-      // console.log("this.audioELement =>", this.audioELement);
+      //
     },
 
     //获取歌曲当前播放时间并保存到state
@@ -332,7 +330,6 @@ export default {
 
     //修改歌曲信息
     changeSongsData(id) {
-      console.log("切换歌曲");
       //修改歌曲id
       // this.$store.commit("changeSongId", id);
       //根据歌曲id获取歌曲src并传值
@@ -345,7 +342,7 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            // console.log("music result.data.data =>", result.data.data);
+            //
             let songSrc = result.data.data[0].url;
             this.$store.commit("changeSongSrc", songSrc);
           }
@@ -364,7 +361,6 @@ export default {
       })
         .then((result) => {
           if (result.data.code == 200) {
-            console.log("music result.data.songs =>", result.data.songs[0]);
             let data = result.data.songs[0];
             //上传修改歌曲信息
             let songData = {};
