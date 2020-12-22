@@ -101,8 +101,6 @@ export default {
   created() {
     //获取audio元素
     this.$nextTick(() => {
-      //
-      this.changeAudio(this.$refs.audio);
       if (this.audioCurrentTime) {
         this.$refs.audio.currentTime = this.audioCurrentTime;
       }
@@ -120,9 +118,7 @@ export default {
     songData() {
       return this.$store.state.songData;
     },
-    audioELement() {
-      return this.$store.state.audioElement;
-    },
+
     //歌曲状态
     audioStatus() {
       return this.$store.state.audioStatus;
@@ -167,7 +163,7 @@ export default {
     //改变歌曲播放暂停状态
     changeSongStatus() {
       if (this.audioStatus == 0) {
-        this.audioELement.play();
+        this.$refs.audio.play();
         this.$store.commit("changeSongStatus", 1);
         //获取wrapper元素
         this.$nextTick(() => {
@@ -175,7 +171,7 @@ export default {
           this.$refs.wrapper.classList.remove("active");
         });
       } else {
-        this.audioELement.pause();
+        this.$refs.audio.pause();
         this.$store.commit("changeSongStatus", 0);
         //获取wrapper元素
         this.$nextTick(() => {
@@ -204,28 +200,30 @@ export default {
 
     //监听音频变化
     listenAudioChange() {
-      //获取音频当前播放事件
-      let currentTime = this.audioELement.currentTime;
-      let totalTime = this.audioELement.duration;
-      //
-      this.drawCircle(currentTime, totalTime);
+      if (this.$refs.audio) {
+        //获取音频当前播放事件
+        let currentTime = this.$refs.audio.currentTime;
+        let totalTime = this.$refs.audio.duration;
+        //
+        this.drawCircle(currentTime, totalTime);
 
-      this.currentTime = currentTime;
-      this.totalTime = totalTime;
-      this.value = parseInt((currentTime / totalTime) * 100);
+        this.currentTime = currentTime;
+        this.totalTime = totalTime;
+        this.value = parseInt((currentTime / totalTime) * 100);
 
-      //保存当前时间、总时长、进度条value值
-      let time = {};
-      time.currentTime = currentTime;
-      time.totalTime = totalTime;
-      time.value = this.value;
-      this.changeCurrentTime(time);
+        //保存当前时间、总时长、进度条value值
+        let time = {};
+        time.currentTime = currentTime;
+        time.totalTime = totalTime;
+        time.value = this.value;
+        this.changeCurrentTime(time);
 
-      if (currentTime == totalTime) {
-        if (this.playMode == "circle") {
-          this.circle();
-        } else if (this.playMode == "random") {
-          this.random();
+        if (currentTime == totalTime) {
+          if (this.playMode == "circle") {
+            this.circle();
+          } else if (this.playMode == "random") {
+            this.random();
+          }
         }
       }
     },
@@ -315,12 +313,6 @@ export default {
       this.$store.commit("changeSongIndex", index);
       this.$store.commit("changeSongId", item.id);
       this.changeSongsData(item.id);
-    },
-
-    //修改audio元素，保存到公共数据state
-    changeAudio(audio) {
-      this.$store.commit("changeAudio", audio);
-      //
     },
 
     //获取歌曲当前播放时间并保存到state

@@ -363,7 +363,6 @@ export default {
         this.songsListData[index] = data;
       });
       //
-      //
       this.$store.commit("changeSongsListData", this.songsListData);
 
       //打开播放页面

@@ -18,9 +18,6 @@ export default new Vuex.Store({
     //歌名、作者、图片
     songData: {},
 
-    //音频元素
-    audioElement: null,
-
     //当前音频播放时间currentTime、总时间totalTime、进度条value
     time: {},
 
@@ -41,9 +38,6 @@ export default new Vuex.Store({
   mutations: {
     //控制歌曲播放页面的显示和隐藏
     changeIsShowTrue(state, data) {
-      // 
-      // 
-
       state.isShow = true;
     },
     changeIsShowFalse(state, data) {
@@ -81,11 +75,6 @@ export default new Vuex.Store({
         localStorage.setItem("playHistory", JSON.stringify(playHistory));
         // 
       }
-    },
-
-    //修改audio
-    changeAudio(state, audio) {
-      state.audioElement = audio;
     },
 
     //修改当前音频播放时间currentTime、总时间totalTime、进度条value

@@ -118,6 +118,7 @@
 import "../assets/less/search.less";
 import PlaySongs from "../components/PlaySongs";
 export default {
+  name: "Search",
   components: { PlaySongs },
   data() {
     return {

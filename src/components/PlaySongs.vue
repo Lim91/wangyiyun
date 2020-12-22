@@ -71,7 +71,9 @@
     <footer>
       <div class="slider-box">
         <div class="slider-box-center clearfix">
-          <div class="left-time fl">{{ currentTime | changSeconds }}</div>
+          <div class="left-time fl">
+            {{ currentTime | changSeconds }}
+          </div>
           <div class="slider fl">
             <van-slider
               v-model="value"
@@ -185,12 +187,10 @@ export default {
   created() {
     //获取audio元素
     this.$nextTick(() => {
-      //
-      this.changeAudio(this.$refs.audio);
       if (this.audioCurrentTime) {
         this.$refs.audio.currentTime = this.audioCurrentTime;
       }
-      //判断歌曲状态，设置歌曲播放或暂停
+      // 判断歌曲状态，设置歌曲播放或暂停
       if (this.audioStatus == 0) {
         this.$refs.audio.pause();
       }
@@ -217,9 +217,6 @@ export default {
       return this.$store.state.songsListData;
     },
 
-    audioELement() {
-      return this.$store.state.audioElement;
-    },
     //歌曲状态
     audioStatus() {
       return this.$store.state.audioStatus;
@@ -292,39 +289,37 @@ export default {
 
     //监听音频变化
     listenAudioChange() {
-      //获取音频当前播放事件
-      var currentTime = this.audioELement.currentTime;
-      var totalTime = this.audioELement.duration;
-      this.currentTime = currentTime;
-      this.totalTime = totalTime;
-      this.value = parseInt((currentTime / totalTime) * 100);
+      console.log("aaaa");
+      if (this.$refs.audio) {
+        //获取音频当前播放事件
+        var currentTime = this.$refs.audio.currentTime;
+        var totalTime = this.$refs.audio.duration;
+        this.currentTime = currentTime;
+        this.totalTime = totalTime;
+        this.value = parseInt((currentTime / totalTime) * 100);
 
-      //保存当前时间、总时长、进度条value值
-      let time = {};
-      time.currentTime = currentTime;
-      time.totalTime = totalTime;
-      time.value = this.value;
-      this.changeCurrentTime(time);
+        //保存当前时间、总时长、进度条value值
+        let time = {};
+        time.currentTime = currentTime;
+        time.totalTime = totalTime;
+        time.value = this.value;
+        this.changeCurrentTime(time);
 
-      if (currentTime == totalTime) {
-        if (this.playMode == "circle") {
-          this.circle();
-        } else if (this.playMode == "random") {
-          this.random();
+        if (currentTime == totalTime) {
+          if (this.playMode == "circle") {
+            this.circle();
+          } else if (this.playMode == "random") {
+            this.random();
+          }
         }
+
+        //歌词数据时间里比当前时间大一点的歌词的索引值
+        var index = this.lyricData.findIndex((item) => {
+          return item.time > currentTime;
+        });
+        this.lyricIndex = index - 1;
+        this.marginTopValue = -30 * (index - 1) + 150;
       }
-
-      //歌词数据时间里比当前时间大一点的歌词的索引值
-      var index = this.lyricData.findIndex((item) => {
-        return item.time > currentTime;
-      });
-      this.lyricIndex = index - 1;
-      this.marginTopValue = -30 * (index - 1) + 150;
-    },
-
-    //修改audio元素，保存到公共数据state
-    changeAudio(audio) {
-      this.$store.commit("changeAudio", audio);
     },
 
     //获取歌曲当前播放时间并保存到state
@@ -334,8 +329,8 @@ export default {
 
     //改变音频进度
     changeAudioTime(value) {
-      this.audioELement.currentTime = parseInt(
-        (value / 100) * this.audioELement.duration
+      this.$refs.audio.currentTime = parseInt(
+        (value / 100) * this.$refs.audio.duration
       );
     },
 
@@ -529,14 +524,14 @@ export default {
     changeSongStatus() {
       //
       if (this.audioStatus == 0) {
-        this.audioELement.play();
+        this.$refs.audio.play();
         this.$store.commit("changeSongStatus", 1);
         //获取wrapper元素
         this.$nextTick(() => {
           this.$refs.wrapper.classList.remove("active");
         });
       } else {
-        this.audioELement.pause();
+        this.$refs.audio.pause();
         this.$store.commit("changeSongStatus", 0);
         //获取wrapper元素
         this.$nextTick(() => {
@@ -544,6 +539,11 @@ export default {
         });
       }
     },
+  },
+
+  // 添加这一行 可以保证组件不被keep-alive进行缓存
+  deactivated() {
+    this.$destroy();
   },
 };
 </script>

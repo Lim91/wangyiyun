@@ -39,7 +39,7 @@ const routes = [
         name: 'Search',
         component: () => import("../views/Search"),
         meta: {
-          keepAlive: true
+          keepAlive: false
         }
       },
       {
