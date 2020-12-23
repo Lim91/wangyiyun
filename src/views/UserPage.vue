@@ -1,12 +1,5 @@
 <template>
   <div class="user-page">
-    <transition
-      name="custom-classes-transition"
-      enter-active-class="animate__animated animate__slideInUp"
-      leave-active-class="animate__animated animate__slideOutDown"
-    >
-      <play-songs v-if="isShow"></play-songs>
-    </transition>
     <div class="user-page-box" v-if="!isShow">
       <van-tabs v-model="active" class="navbar">
         <template #nav-left>

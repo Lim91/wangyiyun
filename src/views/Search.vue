@@ -1,12 +1,5 @@
 <template>
   <div class="search">
-    <transition
-      name="custom-classes-transition"
-      enter-active-class="animate__animated animate__slideInUp"
-      leave-active-class="animate__animated animate__slideOutDown"
-    >
-      <play-songs v-if="isShow"></play-songs>
-    </transition>
     <div class="search-box" v-if="!isShow">
       <van-nav-bar
         @click-left="back"

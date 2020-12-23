@@ -1,12 +1,5 @@
 <template>
   <div class="songlistpage">
-    <transition
-      name="custom-classes-transition"
-      enter-active-class="animate__animated animate__slideInUp"
-      leave-active-class="animate__animated animate__slideOutDown"
-    >
-      <play-songs v-if="isShow"></play-songs>
-    </transition>
     <div class="songlistpage-box" v-if="!isShow">
       <div
         v-if="songListData.artist"

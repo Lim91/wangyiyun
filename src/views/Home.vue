@@ -1,12 +1,5 @@
 <template>
   <div class="home">
-    <transition
-      name="custom-classes-transition"
-      enter-active-class="animate__animated animate__slideInUp"
-      leave-active-class="animate__animated animate__slideOutDown"
-    >
-      <play-songs v-if="isShow"></play-songs>
-    </transition>
     <div class="home-box" v-if="!isShow">
       <!-- 顶部搜索 -->
       <van-nav-bar title="LIM MUSIC">
@@ -445,12 +438,6 @@ export default {
       //
       this.$router.push({ name: "ArtistPage", params: { id: id } });
     },
-  },
-
-  // 添加这一行 可以保证组件不被keep-alive进行缓存
-  deactivated() {
-    console.log("组件离开");
-    this.$destroy();
   },
 };
 </script>
