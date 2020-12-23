@@ -289,7 +289,6 @@ export default {
 
     //监听音频变化
     listenAudioChange() {
-      console.log("aaaa");
       if (this.$refs.audio) {
         //获取音频当前播放事件
         var currentTime = this.$refs.audio.currentTime;
@@ -381,6 +380,8 @@ export default {
             songData.artists = artists.join("/");
             songData.id = JSON.stringify(id);
             this.$store.commit("changeSongData", songData);
+            //歌曲是否收藏
+            this.showIsCollection();
           }
         })
         .catch((err) => {
@@ -539,11 +540,6 @@ export default {
         });
       }
     },
-  },
-
-  // 添加这一行 可以保证组件不被keep-alive进行缓存
-  deactivated() {
-    this.$destroy();
   },
 };
 </script>

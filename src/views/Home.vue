@@ -446,5 +446,11 @@ export default {
       this.$router.push({ name: "ArtistPage", params: { id: id } });
     },
   },
+
+  // 添加这一行 可以保证组件不被keep-alive进行缓存
+  deactivated() {
+    console.log("组件离开");
+    this.$destroy();
+  },
 };
 </script>
