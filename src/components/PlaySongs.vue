@@ -620,16 +620,13 @@ export default {
     height: 418px;
     display: flex;
     align-items: center;
-    transition: all 1s;
-    .hide {
-      display: none;
-      opacity: 0;
-    }
     .cd-box {
       width: 100%;
       height: 300px;
-      //   background-color: red;
       position: relative;
+      .hide {
+        display: none;
+      }
       .cd-wrapper {
         overflow: hidden;
         position: absolute;
