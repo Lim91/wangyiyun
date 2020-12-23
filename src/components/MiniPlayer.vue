@@ -293,19 +293,23 @@ export default {
 
     deleteOne(item, index) {
       let data = this.songsListData;
-      data.splice(index, 1);
+      if (data.length > 0) {
+        data.splice(index, 1);
+        this.$store.commit("changeSongsListData", data);
+      }
       if (data.length == 0) {
         this.$store.commit("changeIsShowFalse");
         this.$store.commit("changeSongSrc", null);
-        this.$store.commit("changeSongsListData", []);
+        this.$store.commit("changeSongsListData", "");
         return;
       }
-      if (this.songIndex >= index) {
-        this.$store.commit("changeSongIndex", index);
-        this.$store.commit("changeSongId", this.songsListData[index].id);
-        this.changeSongsData(this.songsListData[index].id);
+      if (index < this.songIndex) {
+        this.$store.commit("changeSongIndex", this.songIndex - 1);
+        this.$store.commit("changeSongId", data[this.songIndex].id);
+        this.changeSongsData(data[this.songIndex].id);
+      } else if (index == this.songIndex) {
+        this.changeSongsData(data[this.songIndex].id);
       }
-      this.$store.commit("changeSongsListData", data);
     },
 
     //切换歌曲
