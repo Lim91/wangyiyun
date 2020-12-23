@@ -14,7 +14,7 @@
             background="#d44439"
             left-icon="none"
             @search="searchSongsData"
-            @keyup="changeSongsData"
+            @input="changeSongsData"
             v-model="searchValue"
             right-icon="none"
           />
@@ -23,7 +23,7 @@
 
       <div class="first-show" v-if="songsData.length == 0">
         <main>
-          <div class="hot-search">
+          <div class="hot-search" v-if="searchSuggest.length == 0">
             <p class="title">热门搜索</p>
             <span
               class="hot-search-items"
@@ -31,6 +31,16 @@
               :key="index"
               @click="searchHot(item.first)"
               >{{ item.first }}</span
+            >
+          </div>
+          <div class="search-suggestt" v-else>
+            <p class="title">搜索建议</p>
+            <span
+              class="hot-search-items"
+              v-for="(item, index) in searchSuggest"
+              :key="index"
+              @click="searchHot(item)"
+              >{{ item }}</span
             >
           </div>
         </main>
@@ -119,6 +129,8 @@ export default {
       searchValue: "",
       //热门搜索
       hotSearch: [],
+      //搜索建议
+      searchSuggest: [],
       //搜索历史
       searchHistory: [],
       //歌手数据
@@ -308,10 +320,42 @@ export default {
     },
 
     //监听搜索框键盘按下事件
-    changeSongsData() {
-      //
+    changeSongsData(value) {
+      //清空搜索建议
+      this.searchSuggest = [];
+      //如果搜索栏为空
       if (!this.searchValue) {
         this.searchClear();
+      } else {
+        //搜索建议
+        this.axios({
+          methods: "GET",
+          url: "/search/suggest",
+          //如果是get请求，参数需要放在params，如果是post，参数放在data
+          params: {
+            keywords: value,
+          },
+        })
+          .then((result) => {
+            if (result.data.code == 200) {
+              console.log("result.data.result =>", result.data.result);
+              let data = result.data.result;
+              if (data.artists) {
+                data.artists.map((item) => {
+                  this.searchSuggest.push(item.name);
+                });
+              }
+              if (data.songs) {
+                data.songs.map((item) => {
+                  this.searchSuggest.push(item.name);
+                });
+              }
+              console.log("this.searchSuggest =>", this.searchSuggest);
+            }
+          })
+          .catch((err) => {
+            console.log("err =>", err);
+          });
       }
     },
 
@@ -325,6 +369,8 @@ export default {
       this.songsList = [];
       //单曲数据
       this.songsData = [];
+      //
+      this.searchSuggest = [];
     },
 
     //修改歌曲播放页面显示和隐藏的值

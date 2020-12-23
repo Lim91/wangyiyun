@@ -1,7 +1,7 @@
 <template>
   <div class="user-page">
     <div class="user-page-box" v-if="!isShow">
-      <van-tabs v-model="active" class="navbar">
+      <van-tabs v-model="active" class="navbar" animated>
         <template #nav-left>
           <van-icon name="arrow-left" color="white" @click="back" size="16" />
           <div class="back" @click="back">返回</div>
