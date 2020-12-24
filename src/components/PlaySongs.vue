@@ -255,6 +255,7 @@ export default {
 
     //获取歌词
     getLyric(id) {
+      //正则表达式匹配时间
       var patt = /\[\d{2}:\d{2}\.\d{2,3}\]/gi;
       this.axios({
         method: "GET",
@@ -271,9 +272,13 @@ export default {
                 .split("\n")
                 .filter((e) => e)
                 .map((str) => {
+                  //正则匹配时间，将[]去掉
                   var time = str.match(patt)[0].replace(/(\[|\])/gi, "");
+                  //按照  ： 切割
                   var timeArr = time.split(":");
+                  //转换为秒数
                   time = Number(timeArr[0]) * 60 + Number(timeArr[1]);
+                  //将时间替换为空，剩下歌词
                   var text = str.replace(patt, "");
                   return { time, text };
                 });
