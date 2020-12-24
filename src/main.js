@@ -44,7 +44,7 @@ import {
   Lazyload,
   IndexBar,
   IndexAnchor,
-  Slider
+  Slider,
 } from 'vant'
 
 //注册Button组件

@@ -158,6 +158,15 @@ export default {
     this.getSearchHistory();
   },
 
+  watch: {
+    //判断搜索框的值是否为空，是的话不显示搜索建议
+    searchChange: function (newV) {
+      if (newV.searchValue.length == 0 && newV.searchSuggest.length != 0) {
+        this.searchSuggest = [];
+      }
+    },
+  },
+
   computed: {
     //播放歌曲页面显示和隐藏的值
     isShow() {
@@ -165,6 +174,10 @@ export default {
     },
     songSrc() {
       return this.$store.state.songSrc;
+    },
+    searchChange() {
+      const { searchSuggest, searchValue } = this;
+      return { searchSuggest, searchValue };
     },
   },
 
@@ -338,7 +351,6 @@ export default {
         })
           .then((result) => {
             if (result.data.code == 200) {
-              console.log("result.data.result =>", result.data.result);
               let data = result.data.result;
               if (data.artists) {
                 data.artists.map((item) => {
@@ -350,7 +362,6 @@ export default {
                   this.searchSuggest.push(item.name);
                 });
               }
-              console.log("this.searchSuggest =>", this.searchSuggest);
             }
           })
           .catch((err) => {

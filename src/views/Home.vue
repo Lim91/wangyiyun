@@ -42,7 +42,7 @@
                 @click="goSongListPage(item.id)"
               >
                 <div class="song-box">
-                  <img :src="item.picUrl" alt="" />
+                  <img v-lazy="item.picUrl" alt="" />
                   <div class="img-text">
                     <div>
                       <van-icon name="music-o" color="#fdfdfd" size="14" />
@@ -65,7 +65,7 @@
                 @click="goPlaySong(item, index)"
               >
                 <div class="song-box">
-                  <img :src="item.picUrl" alt="" />
+                  <img v-lazy="item.picUrl" alt="" />
                 </div>
 
                 <div class="song-name one-text">{{ item.name }}</div>
@@ -85,7 +85,7 @@
               :key="index"
               @click="goSongListPage(item.id)"
             >
-              <div class="img-box fl"><img :src="item.coverImgUrl" /></div>
+              <div class="img-box fl"><img v-lazy="item.coverImgUrl" /></div>
               <div class="ranking-songs fl">
                 <p class="one-text" v-for="(v, k) in item.tracks" :key="k">
                   {{ k + 1 }}. {{ v.first }} - {{ v.second }}
@@ -109,7 +109,7 @@
                 :key="index"
                 @click="goSingerPage(item.id)"
               >
-                <img :src="item.picUrl" alt="" />
+                <img v-lazy="item.picUrl" alt="" />
                 <p>{{ item.name }}</p>
               </div>
             </div>
