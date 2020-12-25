@@ -1,7 +1,11 @@
 <template>
   <div class="mini-player">
     <div class="icon" @click="openPlaySongs">
-      <img :src="songData.picUrl" alt="" ref="wrapper" />
+      <img
+        :src="`${songData.picUrl}?imageView=1&type=webp&thumbnail=369x0`"
+        alt=""
+        ref="wrapper"
+      />
     </div>
     <div class="text" @click="openPlaySongs">
       <p class="name one-text">{{ songData.name }}</p>

@@ -4,17 +4,15 @@
       <div
         v-if="songListData.artist"
         class="bg"
-        :style="{ backgroundImage: `url('${songListData.artist.img1v1Url}')` }"
+        :style="{
+          backgroundImage: `url('${songListData.artist.img1v1Url}?imageView=1&type=webp&thumbnail=369x0')`,
+        }"
       >
         <div class="mask"></div>
         <van-nav-bar left-text="返回" left-arrow fixed @click-left="back" />
 
         <div class="bg-bottom" v-if="songListData">
           <h2 class="name">{{ songListData.artist.name }}</h2>
-          <!-- <h4>
-            <div><van-icon name="music-o" color="#fdfdfd" size="15" /></div>
-            {{ songListData.playCount | nodecimal }}万
-          </h4> -->
         </div>
       </div>
 
@@ -39,7 +37,12 @@
           >
             <p class="count">{{ index + 1 }}</p>
             <div class="portrait">
-              <img v-lazy="item.al.picUrl" alt="" />
+              <img
+                v-lazy="
+                  `${item.al.picUrl}?imageView=1&type=webp&thumbnail=369x0`
+                "
+                alt=""
+              />
             </div>
             <div class="song-text">
               <h3 class="song-name onetext">{{ item.name }}</h3>
@@ -54,9 +57,8 @@
 
 <script>
 import "../assets/less/songlistpage.less";
-import PlaySongs from "../components/PlaySongs";
 export default {
-  components: { PlaySongs },
+  name: "ArtistPage",
   data() {
     return {
       //歌单id

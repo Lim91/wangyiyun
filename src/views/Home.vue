@@ -109,7 +109,12 @@
                 :key="index"
                 @click="goSingerPage(item.id)"
               >
-                <img v-lazy="item.picUrl" alt="" />
+                <img
+                  v-lazy="
+                    `${item.picUrl}?imageView=1&type=webp&thumbnail=369x0`
+                  "
+                  alt=""
+                />
                 <p>{{ item.name }}</p>
               </div>
             </div>

@@ -38,7 +38,12 @@
           >
             <p class="count">{{ index + 1 }}</p>
             <div class="portrait">
-              <img v-lazy="item.al.picUrl" alt="" />
+              <img
+                v-lazy="
+                  `${item.al.picUrl}?imageView=1&type=webp&thumbnail=369x0`
+                "
+                alt=""
+              />
             </div>
             <div class="song-text">
               <h3 class="song-name one-text">{{ item.name }}</h3>

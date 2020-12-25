@@ -83,7 +83,10 @@
               v-if="singerData.length > 0"
               @click="goSingerPage(singerData[0].id)"
             >
-              <img v-lazy="singerData[0].img1v1Url" alt="" />
+              <img
+                :src="`${singerData[0].img1v1Url}?imageView=1&type=webp&thumbnail=369x0`"
+                alt=""
+              />
               <div class="text">
                 <p class="one-text">歌手：{{ singerData[0].name }}</p>
               </div>
@@ -93,7 +96,10 @@
               v-if="songsList.length > 0"
               @click="goSongList(songsList[0].id)"
             >
-              <img :src="songsList[0].coverImgUrl" alt="" />
+              <img
+                :src="`${songsList[0].coverImgUrl}?imageView=1&type=webp&thumbnail=369x0`"
+                alt=""
+              />
               <div class="text">
                 <p class="one-text">歌单</p>
                 <p class="one-text">{{ songsList[0].name }}</p>
@@ -296,7 +302,6 @@ export default {
         },
       })
         .then((result) => {
-          this.$toast.clear();
           //
           if (result.data.code == 200) {
             this.singerData = result.data.result.artists.splice(0, 1);
@@ -319,7 +324,6 @@ export default {
         },
       })
         .then((result) => {
-          this.$toast.clear();
           //
           if (result.data.code == 200) {
             //
