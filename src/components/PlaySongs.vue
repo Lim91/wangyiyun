@@ -342,14 +342,18 @@ export default {
     dragIsStart() {
       this.drag = true;
       //拖动进度条，歌曲应该暂停
-      this.$refs.audio.pause();
+      if (this.audioStatus == 1) {
+        this.$refs.audio.pause();
+      }
     },
 
     //拖动进度条结束
     dragIsEnd() {
       this.drag = false;
       //拖动进度条结束，歌曲应该播放
-      this.$refs.audio.play();
+      if (this.audioStatus == 1) {
+        this.$refs.audio.play();
+      }
     },
 
     //改变音频进度

@@ -21,7 +21,7 @@ export default new Vuex.Store({
     //当前音频播放时间currentTime、总时间totalTime、进度条value
     time: {},
 
-    //歌曲播放状态
+    //歌曲播放状态(1:播放，0:暂停)
     audioStatus: 1,
 
     //歌单name和id的数据列表
