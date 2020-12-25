@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import MiniPlayer from "../components/MiniPlayer";
+import PlaySongs from "../components/PlaySongs";
 export default {
   name: "Main",
   data() {
