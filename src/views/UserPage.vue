@@ -87,9 +87,7 @@
 
 <script>
 import "../assets/less/userpage.less";
-import PlaySongs from "../components/PlaySongs";
 export default {
-  components: { PlaySongs },
   data() {
     return {
       active: 0,

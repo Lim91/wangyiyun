@@ -58,9 +58,7 @@
 
 <script>
 import "../assets/less/songlistpage.less";
-import PlaySongs from "../components/PlaySongs";
 export default {
-  components: { PlaySongs },
   data() {
     return {
       //歌单id

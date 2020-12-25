@@ -127,10 +127,8 @@
 
 <script>
 import "../assets/less/home.less";
-import PlaySongs from "../components/PlaySongs";
 export default {
   name: "Home",
-  components: { PlaySongs },
   data() {
     return {
       //字母表
