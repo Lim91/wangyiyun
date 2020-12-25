@@ -80,8 +80,8 @@
               active-color="red"
               button-size="16px"
               @input="changeAudioTime"
-              @drag-start="drag = true"
-              @drag-end="drag = false"
+              @drag-start="dragIsStart"
+              @drag-end="dragIsEnd"
             />
           </div>
           <div class="right-time fl">{{ totalTime | changSeconds }}</div>
@@ -336,6 +336,20 @@ export default {
     //获取歌曲当前播放时间并保存到state
     changeCurrentTime(time) {
       this.$store.commit("changeCurrentTime", time);
+    },
+
+    //拖动进度条开始
+    dragIsStart() {
+      this.drag = true;
+      //拖动进度条，歌曲应该暂停
+      this.$refs.audio.pause();
+    },
+
+    //拖动进度条结束
+    dragIsEnd() {
+      this.drag = false;
+      //拖动进度条结束，歌曲应该播放
+      this.$refs.audio.play();
     },
 
     //改变音频进度
