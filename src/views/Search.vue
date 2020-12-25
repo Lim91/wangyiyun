@@ -83,7 +83,7 @@
               v-if="singerData.length > 0"
               @click="goSingerPage(singerData[0].id)"
             >
-              <img :src="singerData[0].img1v1Url" alt="" />
+              <img v-lazy="singerData[0].img1v1Url" alt="" />
               <div class="text">
                 <p class="one-text">歌手：{{ singerData[0].name }}</p>
               </div>

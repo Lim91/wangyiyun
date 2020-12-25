@@ -11,6 +11,13 @@ import store from './store'
 //导入rem适配文件
 import 'lib-flexible/flexible'
 
+//图片懒加载
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload, {
+  error: require('./assets/images/loading1.gif'),
+  loading: require('./assets/images/loading1.gif')
+})
+
 //从vant框架导入Button组件
 import {
   Button,
@@ -41,7 +48,6 @@ import {
   Tabs,
   Cell,
   Uploader,
-  Lazyload,
   IndexBar,
   IndexAnchor,
   Slider,
@@ -77,9 +83,6 @@ Vue
   .use(Tabs)
   .use(Cell)
   .use(Uploader)
-  .use(Lazyload, {
-    lazyComponent: true,
-  })
   .use(IndexBar)
   .use(IndexAnchor)
   .use(Slider)

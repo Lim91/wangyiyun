@@ -79,7 +79,9 @@
               v-model="value"
               active-color="red"
               button-size="16px"
-              @change="changeAudioTime"
+              @input="changeAudioTime"
+              @drag-start="drag = true"
+              @drag-end="drag = false"
             />
           </div>
           <div class="right-time fl">{{ totalTime | changSeconds }}</div>
@@ -143,6 +145,9 @@ export default {
       value: 0,
       currentTime: "",
       totalTime: "",
+
+      //拖动
+      drag: false,
 
       //控制组件图标
       controlsSrc: [
@@ -294,35 +299,37 @@ export default {
 
     //监听音频变化
     listenAudioChange() {
-      if (this.$refs.audio) {
-        //获取音频当前播放事件
-        var currentTime = this.$refs.audio.currentTime;
-        var totalTime = this.$refs.audio.duration;
-        this.currentTime = currentTime;
-        this.totalTime = totalTime;
-        this.value = parseInt((currentTime / totalTime) * 100);
+      if (!this.drag) {
+        if (this.$refs.audio) {
+          //获取音频当前播放事件
+          var currentTime = this.$refs.audio.currentTime;
+          var totalTime = this.$refs.audio.duration;
+          this.currentTime = currentTime;
+          this.totalTime = totalTime;
+          this.value = parseInt((currentTime / totalTime) * 100);
 
-        //保存当前时间、总时长、进度条value值
-        let time = {};
-        time.currentTime = currentTime;
-        time.totalTime = totalTime;
-        time.value = this.value;
-        this.changeCurrentTime(time);
+          //保存当前时间、总时长、进度条value值
+          let time = {};
+          time.currentTime = currentTime;
+          time.totalTime = totalTime;
+          time.value = this.value;
+          this.changeCurrentTime(time);
 
-        if (currentTime == totalTime) {
-          if (this.playMode == "circle") {
-            this.circle();
-          } else if (this.playMode == "random") {
-            this.random();
+          if (currentTime == totalTime) {
+            if (this.playMode == "circle") {
+              this.circle();
+            } else if (this.playMode == "random") {
+              this.random();
+            }
           }
-        }
 
-        //歌词数据时间里比当前时间大一点的歌词的索引值
-        var index = this.lyricData.findIndex((item) => {
-          return item.time > currentTime;
-        });
-        this.lyricIndex = index - 1;
-        this.marginTopValue = -30 * (index - 1) + 150;
+          //歌词数据时间里比当前时间大一点的歌词的索引值
+          var index = this.lyricData.findIndex((item) => {
+            return item.time > currentTime;
+          });
+          this.lyricIndex = index - 1;
+          this.marginTopValue = -30 * (index - 1) + 150;
+        }
       }
     },
 
@@ -336,6 +343,13 @@ export default {
       this.$refs.audio.currentTime = parseInt(
         (value / 100) * this.$refs.audio.duration
       );
+
+      //歌词数据时间里比当前时间大一点的歌词的索引值
+      var index = this.lyricData.findIndex((item) => {
+        return item.time > this.$refs.audio.currentTime;
+      });
+      this.lyricIndex = index - 1;
+      this.marginTopValue = -30 * (index - 1) + 150;
     },
 
     //修改歌曲信息
