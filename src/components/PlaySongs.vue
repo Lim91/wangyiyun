@@ -459,8 +459,17 @@ export default {
     //随机播放
     random() {
       let length = this.songsListData.length;
-      let index = Math.floor(Math.random() * length);
-
+      var that = this;
+      //如果索引值是当前索引值，则重新获取随机数
+      function randomIndex() {
+        let index = Math.floor(Math.random() * length);
+        if (index == that.songIndex) {
+          return randomIndex();
+        } else {
+          return index;
+        }
+      }
+      let index = randomIndex();
       let id = this.songsListData[index].id;
       //修改歌曲data
       this.changeSongsData(id);

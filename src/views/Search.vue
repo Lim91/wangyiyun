@@ -271,6 +271,7 @@ export default {
           //
           if (result.data.code == 200) {
             let songsData = result.data.result.songs;
+            console.log("songsData =>", songsData);
             for (let key in songsData) {
               if (songsData[key].artists.length > 1) {
                 songsData[key].artists[0].name =
@@ -279,6 +280,12 @@ export default {
                   songsData[key].artists[1].name;
               }
             }
+            //去掉收费歌曲
+            songsData.forEach((item, index, self) => {
+              if (item.fee == 1) {
+                self.splice(index, 1);
+              }
+            });
             this.songsData = songsData;
 
             this.$toast.clear();

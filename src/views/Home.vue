@@ -274,7 +274,7 @@ export default {
         method: "GET",
         url: "/personalized",
         params: {
-          limit: 6,
+          limit: 9,
         },
       })
         .then((result) => {
