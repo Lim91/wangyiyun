@@ -771,14 +771,14 @@ export default {
       }
       .last-song {
         text-align: right;
-        width: 67px;
+        width: 65px;
         img {
           margin-top: 5px;
         }
       }
       .play {
         text-align: center;
-        width: 87px;
+        width: 100px;
         padding: 0 20px;
         img {
           width: 40px;
@@ -794,7 +794,7 @@ export default {
       }
       .collection {
         text-align: left;
-        width: 67px;
+        width: 70px;
         img {
           margin-top: 5px;
         }

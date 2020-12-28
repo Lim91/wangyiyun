@@ -60,7 +60,7 @@
                 :key="index"
               >
                 <div class="text fl" @click="searchHot(item)">{{ item }}</div>
-                <div class="icon fr" @click="deleteSearchItem(index)">
+                <div class="icon fr" @click="deleteSearchItem(item, index)">
                   <van-icon name="cross" size="16" />
                 </div>
               </li>
@@ -271,7 +271,6 @@ export default {
           //
           if (result.data.code == 200) {
             let songsData = result.data.result.songs;
-            console.log("songsData =>", songsData);
             for (let key in songsData) {
               if (songsData[key].artists.length > 1) {
                 songsData[key].artists[0].name =
@@ -343,12 +342,16 @@ export default {
 
     //监听搜索框键盘按下事件
     changeSongsData(value) {
+      //歌手数据
+      this.singerData = [];
+      //歌单数据
+      this.songsList = [];
+      //单曲数据
+      this.songsData = [];
       //清空搜索建议
       this.searchSuggest = [];
-      //如果搜索栏为空
-      if (!this.searchValue) {
-        this.searchClear();
-      } else {
+
+      if (value) {
         //搜索建议
         this.axios({
           methods: "GET",
