@@ -3,7 +3,10 @@
     <div class="background-box">
       <div class="background">
         <div class="filter"></div>
-        <img :src="songData.picUrl" alt="" />
+        <img
+          :src="`${songData.picUrl}?imageView=1&type=webp&thumbnail=369x0`"
+          alt=""
+        />
       </div>
     </div>
     <header class="clearfix">
@@ -592,6 +595,10 @@ export default {
 
 <style lang="less" scoped>
 .play-songs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
   color: #f1f1f1;
   width: 100%;
   height: 100%;
@@ -610,14 +617,13 @@ export default {
       height: 300%;
       z-index: -1;
       filter: blur(20px);
-      opacity: 0.6;
       .filter {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #000;
+        background-color: rgba(0, 0, 0, 0.4);
         opacity: 0.6;
       }
       img {

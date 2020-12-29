@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="home-box" v-if="!isShow">
+    <div class="home-box">
       <!-- 顶部搜索 -->
       <van-nav-bar title="LIM MUSIC">
         <template #left>
@@ -71,6 +71,9 @@
                 <div class="song-name one-text">{{ item.name }}</div>
                 <div class="song-artist one-text">
                   {{ item.song.artists[0].name }}
+                  <span v-if="item.song.artists[1]"
+                    >/{{ item.song.artists[1].name }}</span
+                  >
                 </div>
               </li>
             </ul>

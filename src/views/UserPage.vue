@@ -1,6 +1,6 @@
 <template>
   <div class="user-page">
-    <div class="user-page-box" v-if="!isShow">
+    <div class="user-page-box">
       <van-tabs v-model="active" class="navbar" animated>
         <template #nav-left>
           <van-icon name="arrow-left" color="white" @click="back" size="16" />
@@ -21,7 +21,7 @@
             <div class="delete">
               <van-icon
                 name="delete"
-                color="#2e3030"
+                color="#555"
                 size="22"
                 @click="deleteSongsList('collection')"
               />
@@ -37,8 +37,8 @@
             >
               <p class="index fl">{{ index + 1 }}</p>
               <div class="text fl">
-                <p class="name">{{ item.name }}</p>
-                <p class="artist">{{ item.artists }}</p>
+                <p class="name one-text">{{ item.name }}</p>
+                <p class="artist one-text">{{ item.artists }}</p>
               </div>
             </li>
           </ul>
@@ -58,7 +58,7 @@
             <div class="delete">
               <van-icon
                 name="delete"
-                color="#2e3030"
+                color="#555"
                 size="22"
                 @click="deleteSongsList('playHistory')"
               />
@@ -74,8 +74,8 @@
             >
               <p class="index fl">{{ index + 1 }}</p>
               <div class="text fl">
-                <p class="name">{{ item.name }}</p>
-                <p class="artist">{{ item.artists }}</p>
+                <p class="name one-text">{{ item.name }}</p>
+                <p class="artist one-text">{{ item.artists }}</p>
               </div>
             </li>
           </ul>

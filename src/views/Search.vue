@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-    <div class="search-box" v-if="!isShow">
+    <div class="search-box">
       <van-nav-bar
         @click-left="back"
         @click-right="searchClear"

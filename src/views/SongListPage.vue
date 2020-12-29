@@ -1,6 +1,6 @@
 <template>
   <div class="songlistpage">
-    <div class="songlistpage-box" v-if="!isShow">
+    <div class="songlistpage-box">
       <div
         class="bg"
         :style="{ backgroundImage: `url('${songListData.coverImgUrl}')` }"

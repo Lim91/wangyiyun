@@ -1,6 +1,6 @@
 <template>
   <div class="songlistpage">
-    <div class="songlistpage-box" v-if="!isShow">
+    <div class="songlistpage-box">
       <div
         v-if="songListData.artist"
         class="bg"
