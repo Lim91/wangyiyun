@@ -278,8 +278,12 @@ export default {
               let lyric = result.data.lrc.lyric;
               var arr = lyric
                 .split("\n")
-                .filter((e) => e)
+                .filter((e) => {
+                  console.log("e =>", e);
+                  return e;
+                })
                 .map((str) => {
+                  console.log("str =>", str);
                   //正则匹配时间，将[]去掉
                   var time = str.match(patt)[0].replace(/(\[|\])/gi, "");
                   //按照  ： 切割
@@ -292,7 +296,6 @@ export default {
                 });
               this.lyricData = arr;
             }
-            //
           }
         })
         .catch((err) => {

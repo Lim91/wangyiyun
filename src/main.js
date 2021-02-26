@@ -106,9 +106,6 @@ axios.interceptors.request.use(config => {
 
     //重新赋值config.data
     config.data = paramsString.slice(0, -1);
-
-    // 
-
   }
 
   //必须返回config
